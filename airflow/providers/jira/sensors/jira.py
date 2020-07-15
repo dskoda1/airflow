@@ -15,6 +15,7 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
+from typing import Any, Callable, Dict, Optional
 from jira.resources import Resource
 
 from airflow.providers.jira.operators.jira import JIRAError, JiraOperator
@@ -38,10 +39,10 @@ class JiraSensor(BaseSensorOperator):
 
     @apply_defaults
     def __init__(self,
-                 jira_conn_id='jira_default',
-                 method_name=None,
-                 method_params=None,
-                 result_processor=None,
+                 jira_conn_id: str = 'jira_default',
+                 method_name: Optional[str] = None,
+                 method_params: Optional[Dict] = None,
+                 result_processor: Optional[Callable] = None,
                  *args,
                  **kwargs):
         super().__init__(*args, **kwargs)
@@ -73,19 +74,19 @@ class JiraTicketSensor(JiraSensor):
     :type field: str
     :param expected_value: expected value of the field
     :type expected_value: str
-    :param result_processor: function that return boolean and act as a sensor response
-    :type result_processor: function
+    :param field_checker_func: function that return boolean and act as a sensor response
+    :type field_checker_func: function
     """
 
     template_fields = ("ticket_id",)
 
     @apply_defaults
     def __init__(self,
-                 jira_conn_id='jira_default',
-                 ticket_id=None,
-                 field=None,
-                 expected_value=None,
-                 field_checker_func=None,
+                 jira_conn_id: str = 'jira_default',
+                 ticket_id: Optional[str] = None,
+                 field: Optional[str] = None,
+                 expected_value: Optional[str] = None,
+                 field_checker_func: Optional[Callable] = None,
                  *args,
                  **kwargs):
 
